@@ -1,0 +1,62 @@
+// 1. Merge Sort
+#include <bits/stdc++.h>
+using namespace std;
+
+void merge(vector<int>&arr, int low, int mid, int high){
+    vector<int> temp;
+    int left= low;
+    int right= mid+1;
+    while(left<= mid && right<= high){
+        if(arr[left]<= arr[right]){
+            temp.push_back(arr[left]);
+            left++;
+        }
+        
+        else {
+            temp.push_back(arr[right]);
+            right++;
+        }
+        
+        
+    }
+    
+    while (left<= mid){
+        temp.push_back(arr[left]);
+        left++;
+    }
+    
+    while (right<= high){
+        temp.push_back(arr[right]);
+        right++;
+    }
+    
+    for(int i= low; i<= high; i++){
+        arr[i]= temp [i-low];
+    }
+}
+
+void split_array(vector<int> &arr, int low, int high){
+    if (low==high) return; //base case
+    int mid= (low + high)/2; //finding middle element of the array to split it into two parts
+    // recursive call to split the array further until it splits into single elements
+    split_array(arr, low, mid); // arr from low to mid
+    split_array(arr, mid+1, high); // arr from mid+1 to high
+    merge(arr, low, mid, high); //to merge the arrays once they are split and arranged in correct order
+}
+
+void merge_sort(vector<int> &arr, int n){
+    split_array(arr, 0, n-1);
+    
+}
+
+int main() {
+    vector<int> arr = {5, 2, 9, 1, 5, 6};
+    int n = arr.size();
+    merge_sort(arr, n);
+    
+    for (int x : arr) {
+        cout << x << " ";
+    }
+    cout << endl;
+    return 0;
+}
